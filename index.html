@@ -76,7 +76,7 @@
 
                 try {
                     // IMPORTANT: Replace with your actual Thorchain API endpoint
-                    const response = await fetch(`https://your-thorchain-api.com/liquidity/${address}`);
+                    const response = await fetch(`https://thornode-v2.ninerealms.com/thorchain/pool/BTC.BTC/liquidity_provider/${address}`);
                     
                     if (!response.ok) {
                         throw new Error('Failed to fetch liquidity data');
