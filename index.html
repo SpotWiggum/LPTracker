@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Thorchain Liquidity Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+        #addressInput {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        #trackButton {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        #resultArea {
+            margin-top: 20px;
+            background-color: white;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <h1>Thorchain Liquidity Tracker</h1>
+    <input 
+        type="text" 
+        id="addressInput" 
+        placeholder="Enter THOR Address"
+    >
+    <button id="trackButton">Track Position</button>
+    <div id="resultArea"></div>
+
+    <script>
+        // Wait for the DOM to be fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Select elements once
+            const addressInput = document.getElementById('addressInput');
+            const trackButton = document.getElementById('trackButton');
+            const resultArea = document.getElementById('resultArea');
+
+            // Add click event listener to the track button
+            trackButton.addEventListener('click', async function() {
+                // Get the address value
+                const address = addressInput.value.trim();
+
+                // Validate address is not empty
+                if (!address) {
+                    resultArea.innerHTML = 'Please enter a THOR address';
+                    return;
+                }
+
+                // Show loading state
+                resultArea.innerHTML = 'Loading...';
+
+                try {
+                    // IMPORTANT: Replace with your actual Thorchain API endpoint
+                    const response = await fetch(`https://thornode.ninerealms.com/thorchain/pool/BTC.BTC/liquidity_provider/${address}`);
+                    
+                    // Check if response is OK
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch liquidity data');
+                    }
+
+                    // Parse JSON response
+                    const data = await response.json();
+                    
+                    // Display data
+                    resultArea.innerHTML = `
+                        <h2>Liquidity Position</h2>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    `;
+                } catch (error) {
+                    // Handle any errors
+                    resultArea.innerHTML = `Error: ${error.message}`;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
