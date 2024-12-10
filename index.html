@@ -71,6 +71,12 @@
                 return parts.length > 1 ? parts[1] : 'Asset';
             }
 
+            // Helper function to format LUVI growth percentage
+            function formatLuviGrowth(value) {
+                // Convert decimal to percentage, round to 1 decimal place
+                return (value * 100).toFixed(1) + '%';
+            }
+
             trackButton.addEventListener('click', async function() {
                 const address = addressInput.value.trim();
 
@@ -123,7 +129,7 @@
                         </div>
                         <div class="position-detail">
                             <strong>Liquidity Value Increase:</strong> 
-                            ${data.Luvi_growth_pct}%
+                            ${formatLuviGrowth(data.Luvi_growth_pct)}
                         </div>
                     `;
 
